@@ -1,7 +1,7 @@
 import Data.List
 
 main :: IO ()
-main = do
+main =
  print (filter tester1 generator1)
 
 generator1 :: [(Int, Int, Int, Int)]
