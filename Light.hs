@@ -34,9 +34,10 @@ factorisable f n
     | otherwise = False
 
 getDigits :: Int -> [Int]
-getDigits num
-  | num < 10  = [0, num]
-  | otherwise = map (\x -> read [x] :: Int) (show num)
+getDigits num = rec num []
+  where
+    rec n acc | n < 10    = if num < 10 then [0, n] else n : acc  -- single digit numbers
+              | otherwise = let (q, r) = n `divMod` 10 in rec q (r : acc)  -- >10, extract digits
 
 calculateSegments :: [Int] -> Int
 calculateSegments = sum . map (segments !!)
