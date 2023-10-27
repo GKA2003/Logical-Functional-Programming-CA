@@ -2,29 +2,24 @@ import Data.List
 
 main :: IO ()
 main =
- print (filter tester1 generator1)
+    print (filter tester1 generator1)
 
 generator1 :: [(Int, Int, Int, Int)]
 generator1 = 
   [(hr, mn, dy, mt) 
-  | mt <- [1..12], mt `mod` 11 /= 0,
-    dy <- [1..31], dy `mod` 11 /= 0,
-    hr <- [0..23], hr `mod` 11 /= 0,
-    mn <- [0..59], mn `mod` 11 /= 0,
-    validDate dy mt,
-    allDifferent (hr, mn, dy, mt)]
-
+  | mt <- [1..12],
+    dy <- [1..31],
+    hr <- [0..23],
+    mn <- [0..59],
+    validDate dy mt]
+    
 validDate :: Int -> Int -> Bool
 validDate day month
-  | month `elem` [1, 3, 5, 7, 8, 10, 12] = day <= 31
-  | month `elem` [4, 6, 9] = day <= 30            
+  | month `elem` [1, 3, 5, 7, 8, 10, 12] = day <= 31  
+  | month `elem` [4, 6, 9, 11] = day <= 30            
   | month == 2 = day <= 28                            
   | otherwise = False
 
-allDifferent :: (Int, Int, Int, Int) -> Bool
-allDifferent (hr, mn, dy, mt) = 
-  let digits = nub $ concatMap getDigits [hr, mn, dy, mt]  
-  in length digits == 8
 
 segments :: [Int]
 segments = [6, 2, 5, 5, 4, 5, 6, 3, 7, 6]  -- 0 to 9
@@ -85,6 +80,4 @@ tester1 dateTime =
     oneMinAfterSegs = calculateSegments oneMinAfterDigits
     validOneMinAfter = (oneMinAfterSegs * 2) == (totalSegments + nextDaySegs)
     
-    
-
     
