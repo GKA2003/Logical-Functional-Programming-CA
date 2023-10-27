@@ -59,9 +59,12 @@ toDigits (hr, mn, dy, mt) = concatMap getTwoDigits [hr, mn, dy, mt]
   where
     getTwoDigits num = if num < 10 then [0, num] else getDigits num
 
+noMultiplesOf11 :: (Int, Int, Int, Int) -> Bool
+noMultiplesOf11 (hr, mn, dy, mt) = all (\x -> x `mod` 11 /= 0) [hr, mn, dy, mt]
+
 tester1 :: (Int, Int, Int, Int) -> Bool
 tester1 dateTime = 
-  uniqueDigits && primeSegments && validNextDay && validOneMinAfter
+  noMultiplesOf11 dateTime && uniqueDigits && primeSegments && validNextDay && validOneMinAfter
   where
     allDigits = toDigits dateTime
     uniqueDigits = length allDigits == length (nub allDigits)
@@ -79,5 +82,3 @@ tester1 dateTime =
     oneMinAfterDigits = toDigits oneMinAfter
     oneMinAfterSegs = calculateSegments oneMinAfterDigits
     validOneMinAfter = (oneMinAfterSegs * 2) == (totalSegments + nextDaySegs)
-    
-    
